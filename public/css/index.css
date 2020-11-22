@@ -1,0 +1,125 @@
+
+.row.trending-topics {
+    padding-top: 23px;
+}
+#trending-tags {
+    padding: 9px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    border-top: 1px solid #dedede;
+    border-bottom: 3px solid #dedede;
+    margin-top: 0px;
+    background: white;
+    border-radius: 5px 5px 0px 0px;
+}
+ul.trending-tags {
+    margin-bottom: 0px;
+}
+ul.trending-tags li.first {
+    font-size: 12px;
+    font-weight: 700;
+}
+ul.trending-tags li {
+    display: inline-block;
+    margin-right: 10px;
+    line-height: 100%;
+    margin-bottom: 10px;
+    vertical-align: middle;
+}
+div#trending-bar {
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+    margin-top: 49px;
+}
+#trending-news {
+    font-size: 0;
+}
+.trending-label, .trending-slider {
+    font-size: 14px;
+    display: inline-block !Important;
+    vertical-align: middle;
+}
+.trending-label {
+    width: 120px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #01579b;
+    text-transform: uppercase;
+    line-height: 18px;
+}
+.owl-carousel {
+    display: none;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+    position: absolute;
+    z-index: 1;
+    left: 138px;
+}
+
+.trending-slider {
+    padding-left: 80px;
+    border-left: solid 1px #dedede;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 120px;
+}
+
+.owl-carousel .owl-stage-outer {
+    position: relative;
+    overflow: hidden;
+    -webkit-transform: translate3d(0px, 0px, 0px);
+}
+.owl-carousel .owl-stage {
+    position: relative;
+    -ms-touch-action: pan-Y;
+}
+.owl-carousel .owl-item {
+    position: relative;
+    min-height: 1px;
+    float: left;
+    -webkit-backface-visibility: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+h3.trending-title {
+    font-size: 14px;
+}
+
+.owl-carousel .owl-stage:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.trending-slider .owl-controls {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 61px;
+    text-align: center;
+    border-right: solid 1px #dedede;
+}
+.owl-nav {
+    display: block;
+}
+.trending-slider .owl-controls .owl-nav .owl-next, .trending-slider .owl-controls .owl-nav .owl-prev {
+    float: left;
+    width: 30px;
+    font-size: 16px;
+    line-height: 50px;
+    color: #c2c2c2;
+}
+
+div#trending-bar .container {
+    position: relative;
+}

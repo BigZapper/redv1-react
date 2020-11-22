@@ -1,0 +1,335 @@
+.cover img {
+    margin-right: 20px;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.row.context {
+    padding-top: 25px;
+}
+img.avatar {
+    background-color: #fff;
+    background-size: cover;
+    border-radius: 100%;
+    border: 4px solid #fff;
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+}
+.container.community-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 0 16px 0 24px;
+    background: white;
+    border-radius: 0px 0px 5px 5px;
+}
+div#community {
+    align-items: flex-start;
+    display: flex;
+    margin-bottom: 12px;
+    margin-top: -14px;
+}
+
+.community-title-block {
+    box-sizing: border-box;
+    align-items: flex-start;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex: 1;
+    flex: 1;
+    padding-left: 16px;
+    margin-top: 24px;
+    position: relative;
+    width: calc(100% - 80px);
+}
+div#banner {
+    width: 100%;
+    background: white;
+    padding-top: 50px;
+}
+.community-text {
+    display: inline-block;
+    max-width: calc(100% - 96px);
+    padding-right: 24px;
+    box-sizing: border-box;
+}
+
+h1.community-title {
+    color: var(--newRedditTheme-bodyText);
+    -ms-flex: 1;
+    flex: 1;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 32px;
+    overflow: hidden;
+    padding: 0 2px 4px 0;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: inline;
+}
+
+h2.community-ref {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    color: var(--newRedditTheme-metaText);
+    color: gray;
+}
+
+.community-button {
+    width: 100%;
+    padding-top: 5px;
+}
+button.btn.btn-primary.edit-community {
+    background: darkred;
+    border: none;
+    border-radius: 50px;
+    width: 80px;
+    float: right;
+    margin-right: 3%;
+}
+button.btn.btn-primary.join {
+    font-size: 12px;
+    line-height: 24px;
+    padding: 4px 9px 2px;
+    width: 100px;
+    background: #2f8e91;
+}
+i.fa.fa-fire.filter-icon {
+    fill: inherit;
+    height: 20px;
+    width: 20px;
+}
+
+.filter-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    margin: 0 4px;
+    text-transform: capitalize;
+}
+a.filter-link {
+    display: inline-flex;
+    border-radius: 20px;
+    height: 32px;
+    margin-right: 8px;
+    padding: 0 8px;
+}
+a.filter-link.active {
+    color: darkred;
+}
+.section-title-about {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    line-height: 12px;
+    text-transform: uppercase;
+    background-color: #f5c007;
+    border-radius: 3px 3px 0 0;
+    display: -ms-flexbox;
+    display: inline-flex;
+    fill: var(--newCommunityTheme-widgetColors-sidebarWidgetTitleColor);
+    padding: 0 12px 12px;
+    width: 100%;
+}
+.widget.about {
+    background-color: #fdfb9f;
+    border: 1px solid #cac87f;
+    border-radius: 4px;
+    overflow: visible;
+}
+
+h6.title-about {
+    position: relative;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 700;
+    text-transform: none;
+    padding: 12px 0 0;
+}
+.communities.about-context {
+    padding: 12px;
+}
+.pagagraph {
+    margin-bottom: 8px;
+    position: relative;
+}
+p.com-about {
+    /* font-family: Noto Sans,Arial,sans-serif; */
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+}
+.member-infor {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.total-members {
+    padding-right: 4px;
+    margin-right: 50px;
+}
+
+.number-members {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+p.text-members {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    display: inline-block;
+    word-break: break-word;
+}
+
+.online-members {
+    padding-left: 16px;
+}
+.date-created {
+    /* font-family: Noto Sans,Arial,sans-serif; */
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+}
+i.fa.fa-birthday-cake {
+    cursor: default;
+    height: 16px;
+    margin-right: 8px;
+    width: 16px;
+}
+.create-post {
+    margin-top: 12px;
+    position: relative;
+}
+
+a.button-create {
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    line-height: 32px;
+    text-transform: uppercase;
+    padding: 0 16px;
+    color: #1a1a1b;
+    background-color: #d7dadc;
+    border-color: #d7dadc;
+    fill: #1a1a1b;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    line-height: 24px;
+    text-transform: uppercase;
+    padding: 3px 16px;
+}
+.rule-block {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    border-bottom: 1px solid grey;
+    padding: 8px 0;
+}
+.rule-title {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+
+.number-rule-block {
+    flex: 0 0;
+}
+.number {
+    padding-right: 2px;
+}
+.rule-name {
+    flex: 1 1 100%;
+    width: 100%;
+}
+.rule-name-context {
+    padding-right: 8px;
+    word-break: break-word;
+}
+.rule-context-block {
+    /* font-family: Noto Sans,Arial,sans-serif; */
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    padding: 8px 8px 0 16px;
+}
+button.btn.btn-warning.join.login {
+    font-weight: 600;
+    background-color: #ffd451;
+    border-color: #ffd451;
+}
+.pick-color-group {
+    display: block;
+    position: relative;
+    padding-bottom: 10px;
+    width: 180px;
+}
+
+.label-color {
+    display: inline-block;
+}
+
+span.box-color {
+    width: 35px;
+    height: 15px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: -5px;
+    outline-style: double;
+    outline-width: 2px;
+    outline-offset: 2px;
+    cursor: pointer;
+}
+.picker-color {
+    width: fit-content;
+    position: absolute;
+    bottom: 38px;
+    left: 87px;
+}
+.change-color {
+    position: relative;
+    top: 2px;
+    margin-left: 5px;
+    right: unset;
+    background: cadetblue;
+    width: 30px;
+    height: 30px;
+    padding: 4px 0px 2px 8px;
+    border-radius: 50px;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    float: right;
+}
+.show-box-color {
+    position: absolute;
+    width: 350px;
+    background: white;
+    padding: 10px;
+    right: 0px;
+    color: black;
+    z-index: 20;
+    border: 1px solid gray;
+    border-radius: 5px;
+    top: 30px;
+}

@@ -1,0 +1,82 @@
+.page-user.create-post {
+    width: 70%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 80px;
+    background: white;
+    padding: 60px;
+}
+#maincontent h1.page-title {
+    /* font-family: Poppins; */
+    font-weight: 600;
+    font-style: normal;
+    color: #212121;
+    font-size: 25px;
+    font-display: swap;
+}
+.post-lists article.hentry {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebcccc;
+    display: block;
+}
+.alert {
+    display: none;
+    padding: 15px;
+    margin-bottom: 30px;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+.input-wrapper {
+    display: block;
+    margin-bottom: 21px;
+}
+.input-wrapper label {
+    display: block;
+    font-weight: 400;
+}
+form input, form textarea, select, #tags_url_tagsinput, .tags_url_tag {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 10px;
+    display: block;
+    width: 100%;
+    -webkit-appearance: none;
+    line-height: 20px;
+}
+.input-wrapper.format .iradio_flat, .input-wrapper.format label {
+    cursor: pointer;
+}
+.iradio_flat.checked {
+    background-position: -110px 0;
+}
+.icheckbox_flat, .iradio_flat {
+    vertical-align: text-top !important;
+    margin: 0 10px !important;
+}
+.icheckbox_flat, .iradio_flat {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: url(http://demo2.themewarrior.com/upvote/wp-content/plugins/upvote-plugin/public/css/skins/flat/flat.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+form#submit-topic .input-wrapper.format label {
+    display: inline-block;
+}
+.input-wrapper.format .iradio_flat, .input-wrapper.format label {
+    cursor: pointer;
+}
+.input-wrapper label {
+    display: block;
+    font-weight: 400;
+}
