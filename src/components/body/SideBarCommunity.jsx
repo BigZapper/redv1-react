@@ -34,18 +34,7 @@ function SideBarCommunity(props) {
     }
 
     const [community, setCommunity] = useState({})
-    function getCommunity() {
-        const data = {
-            community: props.community
-        };
-        axios.post('http://127.0.0.1:8000/api/community/', data, config).then(res => {
-            // console.log(res);
-            if (res.status === 200) {
-                setCommunity(res.data.results[0]);
-            }
-        }).catch(function (error) {
-        });
-    }
+
     function getDateCreated() {
         var date = new Date(community.timestamp);
         var dd = String(date.getDate()).padStart(2, '0');
@@ -71,11 +60,23 @@ function SideBarCommunity(props) {
     }, [community])
 
     useEffect(() => {
+        function getCommunity() {
+            const data = {
+                community: props.community
+            };
+            axios.post('http://127.0.0.1:8000/api/community/', data, config).then(res => {
+                // console.log(res);
+                if (res.status === 200) {
+                    setCommunity(res.data.results[0]);
+                }
+            }).catch(function (error) {
+            });
+        }
         getCommunity();
         return () => {
             source.cancel();
         };
-    }, [props])
+    }, [props.community])
 
     const history = useHistory();
     function handleOnClickFormSubmit() {
@@ -87,18 +88,17 @@ function SideBarCommunity(props) {
     }
     return (
         <div id="sidebar" className="col-lg-4 col-md-5 col-sm-12">
-            <div className="widget about" style={{ backgroundColor: community.description_background_color }}>
+            <div className="widget about" style={{ backgroundColor: community.description_background_color, color: community.text_color }}>
                 {/* <div className="change-color">
                         <span className="fa fa-pencil edit-color"></span>
                     </div> */}
                 <header className="section-title-about" style={{ backgroundColor: community.title_background_color }}>
-                    <h6 className="title-about"> About Community
-                    </h6>
+                    <h6 className="title-about"> About Community</h6>
                 </header>
                 <div className="aside-community-entry"><img alt="Subreddit Icon" role="presentation" src={community.avatar} className="aside-avatar aside-avatar-block" style={{ backgroundColor: 'rgb(0, 121, 211)' }} />
                     <div className="aside-community-name">
                         <a className="aside-community-link" href="/r/disenchantment/">
-                            <span className="aside-community-link-text" title="r/disenchantment">{community.community_type}</span>
+                            <span style={{color: community.text_color }}className="aside-community-link-text" title={community.community_type}>{community.community_type}</span>
                         </a>
                     </div>
                 </div>
@@ -124,14 +124,13 @@ function SideBarCommunity(props) {
                         <div className="date-created"><i className="fa fa-birthday-cake" aria-hidden="true" /> Created {getDateCreated()}</div>
                     </div>
                     <div className="create-post">
-                        <a className="button-bg" onClick={e => { handleOnClickFormSubmit(); e.preventDefault() }} className="button-create" href="#" >Create post</a>
-
+                        <a style={{ backgroundColor: community.button_background_color, color:community.button_text_color }} onClick={e => { handleOnClickFormSubmit(); e.preventDefault() }} className="button-create" href="#" >Create post</a>
 
                     </div>
                 </div>
             </div>
-            <div className="widget about" data-redditstyle="true">
-                <header className="title-bg" className="section-title-about" >
+            <div className="widget about" data-redditstyle="true" style={{ backgroundColor: community.description_background_color, color: community.text_color }}>
+                <header className="title-bg" className="section-title-about" style={{ backgroundColor: community.title_background_color }}>
                     <h6 className="title-about"> Rules</h6>
                 </header>
                 <div className="communities about-context" style={{ maxHeight: 'none' }}>

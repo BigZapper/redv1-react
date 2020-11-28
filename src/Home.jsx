@@ -58,8 +58,7 @@ function Home(props) {
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
     // State để filter post
-    const [postFilter, setPostFilter] = useState(0); //0: Best; 1: Hot; 2: New; 3: Top
-    const [top, setTop] = useState('date');
+    const [postFilter, setPostFilter] = useState(0); //0: Hot; 1: New; 2: Best; 3: Top
     // State để lưu danh sách các post
     const [posts, setPosts] = useState({
         result: []
@@ -76,7 +75,7 @@ function Home(props) {
     // Sau khi component được gọi, nó sẽ gọi api để lấy danh sách các post
     useEffect(() => {
         // console.log(postFilter)
-        if (postFilter === 0) {
+        if (postFilter === 2) {
             const data = {
                 sort: "best",
             }
@@ -92,7 +91,7 @@ function Home(props) {
             }).catch(function (error) {
             });
         }
-        if (postFilter === 1) {
+        if (postFilter === 0) {
             axios.get('http://127.0.0.1:8000/api/post').then(res => {
                 setPosts({
                     result: res.data.results
@@ -105,7 +104,7 @@ function Home(props) {
             }).catch(function (error) {
             });
         }
-        if (postFilter === 2) {
+        if (postFilter === 1) {
             axios.get('http://127.0.0.1:8000/api/post/recent').then(res => {
                 setPosts({
                     result: res.data.results
@@ -282,6 +281,7 @@ function Home(props) {
                         onLoadMore={handleLoadMore}
                         onChangeFilter={handleChangeFilter}
                         isEnd={isEnd}
+                        color={null}
                     />
                     <SideBar cookie={props.cookie} isAuthed={props.isAuthed} />
                 </div>

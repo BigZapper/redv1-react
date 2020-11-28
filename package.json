@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -11,9 +13,20 @@
     "react-color": "^2.19.3",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.2.4",
+    "react-easy-crop": "^3.3.0",
+    "react-infinite-scroll-component": "^5.1.0",
+    "react-loader-spinner": "^3.1.14",
+    "react-pretty-numbers": "^3.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
-    "react-time-ago": "^6.2.0"
+    "react-select-search": "^2.2.1",
+    "react-text-truncate": "^0.16.0",
+    "react-time-ago": "^6.2.0",
+    "react-timeago": "^5.2.0",
+    "react-tiny-link": "^3.6.0",
+    "reactjs-popup": "^2.0.4",
+    "suggestion-react-input-search": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",

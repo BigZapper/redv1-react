@@ -6,6 +6,7 @@ import axios from 'axios';
 import TimeAgo from 'react-timeago';
 import { ReactTinyLink } from 'react-tiny-link';
 import TextTruncate from 'react-text-truncate';
+import NumericLabel from 'react-pretty-numbers';
 
 
 PostNewsFeed.propTypes = {
@@ -299,7 +300,7 @@ function PostNewsFeed(props) {
         };
         axios.post('http://127.0.0.1:8000/api/post/action', data, config).then(function (response) {
             setPoints(points + p);
-            console.log('up' + points);
+            // console.log('up' + points);
         })
             .catch(function (error) {
                 if (error.response.status === 403) {
@@ -315,7 +316,7 @@ function PostNewsFeed(props) {
         axios.post('http://127.0.0.1:8000/api/post/action', data, config).then(function (response) {
             if (response.status === 200) {
                 setPoints(points + p);
-                console.log('down' + points);
+                // console.log('down' + points);
             }
 
         })
@@ -326,17 +327,18 @@ function PostNewsFeed(props) {
             });
     }
 
+    const [views, setViews] = useState(props.view)
 
     useEffect(() => {
         if (props.pointsChanged.id === props.postId) {
             setPoints(props.pointsChanged.points);
+            setCountComment(props.pointsChanged.comments)
+            setViews(props.pointsChanged.views)
         }
-        // console.log(props.user)
-    console.log(props);
     }, [props.pointsChanged])
-
     return (
-        <article id="post-3877" className="post hentry clearfix post-3877 topic type-topic status-publish format-standard has-post-thumbnail topic_category-@Technology topic_tag-social-media">
+        <article style={props.color === null ? {} : { backgroundColor: props.color.post_background_color, color: props.color.text_color }} id="post-3877" className="post hentry clearfix post-3877 topic type-topic status-publish format-standard has-post-thumbnail topic_category-@Technology topic_tag-social-media">
+            
             <div className="rankpoint">
                 <div className="points">
                     <a className={props.isAuthed ? "" : "login"} data-post_id={"up" + props.postId} title="Up"><i id={"upvote_" + props.postId} className={voteStatus === 1 ? "fa fa-caret-up active" : "fa fa-caret-up"} onClick={onClickUpVote} /></a>
@@ -347,24 +349,20 @@ function PostNewsFeed(props) {
             <div className="entrycontent clearfix">
                 <div className="detail">
                     <div className="entrymeta">
-                        <span className="avatar">
-                            <a href={"/user/" + props.user}><img src={props.avatar} alt="" /> {props.user} </a></span>
-                        <span className="date">
-                            <a href="# ">{<TimeAgo date={new Date(props.timestamp)} />} </a> <a href={"/community"+"/"+props.community}>{props.community}</a>
-                        </span>
-                        <span className="comments">
-                            <a href="# "><i className="fa fa-comments" />{" " + countComment}</a>
-                        </span>
+                        <span className="avatar"><a href={"/user/" + props.user}><img src={props.avatar} alt="" /> {props.user} </a></span>
+                        <span className="avatar">in<a href={"/community" + "/" + props.community}>{" "+props.community}</a></span>
+                        <span className="date"><a href="# ">{<TimeAgo date={new Date(props.timestamp)} />} </a></span>
                     </div>
+                    
                     <h3 className="post-title open-post">
-                        <a onClick={e => { handleClickPost(props); e.preventDefault() }} href="# " title={props.title} rel="nofollow">{props.title}</a>
+                        <a style={props.color === null ? {} : { backgroundColor: props.color.post_background_color, color: props.color.text_color }} onClick={e => { handleClickPost(props); e.preventDefault() }} href="# " title={props.title} rel="nofollow">{props.title}</a>
                     </h3>
                 </div>
                 {
                     props.type === 'image' ?
                         <div className="thumbnail open-post list-post" onClick={e => { handleClickPost(props); e.preventDefault() }}>
                             <a href="# " title={props.title} rel="nofollow">
-                                <img src={props.image} className="attachment-thumbnail size-thumbnail wp-post-image" alt={props.title} title={props.title} />
+                                <img src={"http://127.0.0.1:8000" + props.image} className="attachment-thumbnail size-thumbnail wp-post-image" alt={props.title} title={props.title} />
 
                             </a>
                         </div>
@@ -385,11 +383,23 @@ function PostNewsFeed(props) {
                                     element="span"
                                     truncateText="…"
                                     text={props.content}
-                                    textTruncateChild={<a className="read-on" href="# " onClick={e => { handleClickPost(props); e.preventDefault() }}>Read on</a>}
+                                    textTruncateChild={
+                                        <a
+                                            className="read-on"
+                                            href="# "
+                                            onClick={e => { handleClickPost(props); e.preventDefault() }}
+                                        >
+                                            Read on
+                                    </a>
+                                    }
                                 />
                             </p>
                 }
-
+                <div className="entrymeta float-right mr-4">
+                    
+                <span className="comments"><a href="# "><i className="fa fa-comments" />{" " + countComment}</a></span>
+                        <span className="comments"><a href="# "><i className="fa fa-eye" /><span className="ml-1">{<NumericLabel params={{ currency: false, commafy: true, shortFormat: true, justification: 'L' }}>{views}</NumericLabel>}</span></a></span>
+                </div>
             </div>
         </article>
     );

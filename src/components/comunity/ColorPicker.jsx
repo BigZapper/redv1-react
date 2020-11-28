@@ -14,7 +14,7 @@ ColorPicker.defaultProps = {
 }
 
 function ColorPicker(props) {
-    const [background, setBackground] = useState('#fff');
+    const [background, setBackground] = useState(props.currentColor);
     function handleChangeComplete(color) {
         setBackground(color.hex);
         if (!props.onSubmitColor) return;

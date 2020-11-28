@@ -50,7 +50,7 @@ function CommentForm(props) {
                     onChange={handleValueChange} 
                 />
             </div>
-            <button disabled={!isAuthed} type="submit" className="btn btn-primary">Send</button>
+            <button disabled={!isAuthed} type="submit" className="btn btn-primary join">Send</button>
         </form>
     );
 }

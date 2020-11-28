@@ -10,6 +10,9 @@
     max-width: 800px;
     margin: 0 auto;
 }
+.user-button {
+    padding-top: 20px;
+}
 /* .thumbnail.open-post.list-post {
     width: auto!important;
 } */
@@ -248,7 +251,6 @@ li.filter-post.active {
 .popup-content {
     margin: auto;
     background: rgb(255, 255, 255);
-    width: 50%;
     padding: 0px;
   }
   .popup-arrow {

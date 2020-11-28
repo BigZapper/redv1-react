@@ -1,10 +1,25 @@
 .page-user.create-post {
-    width: 70%;
-    max-width: 800px;
+    width: 500px;
     margin: 0 auto;
-    padding-top: 80px;
     background: white;
-    padding: 60px;
+    padding: 30px;
+    max-height: 624px;
+}
+ul.list-group.seacrh {
+    max-height: 150px;
+    overflow: auto;
+}
+.choose-community {
+    max-width: 430px;
+    margin: auto;
+}
+li.list-group-item.list-group-item-action.flex-column.align-items-start:hover {
+    background: #2f8e91;
+    color: white!important;
+}
+li.list-group-item.list-group-item-action.flex-column.align-items-start.active {
+    background: #2f8e91;
+    color: white!important;
 }
 #maincontent h1.page-title {
     /* font-family: Poppins; */

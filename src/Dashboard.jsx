@@ -499,12 +499,12 @@ function Dashboard(props) {
                                                         null
                                                         : isLogged === true ?
                                                             isFollow === true ?
-                                                                <div className="community-button">
-                                                                    <button type="button" onClick={handleUnfollow} className={inHoverFollow === false ? "btn btn-warning" : "btn btn-danger"} onMouseEnter={() => setInHoverFollow(true)} onMouseLeave={() => setInHoverFollow(false)}>{inHoverFollow === false ? "Following" : "Unfollow"}</button>
+                                                                <div className="user-button">
+                                                                    <button type="button" onClick={handleUnfollow} className={inHoverFollow === false ? "btn btn-warning join" : "btn btn-danger join"} onMouseEnter={() => setInHoverFollow(true)} onMouseLeave={() => setInHoverFollow(false)}>{inHoverFollow === false ? <a href="# "><i className="fa fa-user mr-1"></i>Following</a> : <a href="# "><i className="fa fa-user-times mr-1"></i>Unfollow</a>}</button>
                                                                 </div>
                                                                 :
-                                                                <div className="community-button">
-                                                                    <button type="button" className="btn btn-primary" onClick={handleFollow}>Follow</button>
+                                                                <div className="user-button">
+                                                                    <button type="button" className="btn btn-primary join" onClick={handleFollow}> <i className="fa fa-user-plus"></i> Follow</button>
                                                                 </div>
                                                             : null
                                                 }
@@ -655,10 +655,12 @@ function Dashboard(props) {
                                                                                     content={post.content}
                                                                                     community={post.community_type}
                                                                                     timestamp={post.timestamp}
+                                                                                    view={post.view_count}
                                                                                     onClickPost={handleClickPost}
                                                                                     isAuthed={props.isAuthed}
                                                                                     showPost={isShowPost}
                                                                                     pointsChanged={pointsChanged}
+                                                                                    color={null}
                                                                                 />
                                                                             ))}
                                                                         </InfiniteScroll>

@@ -7,14 +7,19 @@ import Typography from '@material-ui/core/Typography'
 import getCroppedImg from './cropImage'
 // import getBase64Image from '../../services/GetImage';
 import { useDropzone } from 'react-dropzone';
-import axios from 'axios';
-import { useCookies } from 'react-cookie';
+import PropTypes from 'prop-types'
 
 // const dogImg =
 //     'https://img.huffingtonpost.com/asset/5ab4d4ac2000007d06eb2c56.jpeg?cache=sih0jwle4e&ops=1910_1000'
+ImageEdit.propTypes = {
+    handleSubmit: PropTypes.func,
+}
 
-const AvatarEdit = (props) => {
-    const [cookies] = useCookies(['name']);
+ImageEdit.propsDefault = {
+    handleSubmit: null
+}
+
+function ImageEdit(props) {
 
     const { open, acceptedFiles } = useDropzone({
         // Disable click and keydown behavior
@@ -46,49 +51,48 @@ const AvatarEdit = (props) => {
     // ));
 
 
+    // function handleSubmit(e) {
+    //     // e.preventDefault();
+    //     // let avatarBase64 = getBase64Image(document.getElementById("down"));
+    //     // let backgroundBase64 = getBase64Image(document.getElementById("up"));
+    //     const config = {
+    //         headers: { Authorization: `Bearer ${cookies.token}` }
+    //     };
+
+    //     var data = {}
+    //     if (props.type === "avatar") {
+    //         var data = {
+    //             community: props.community,
+    //             sub_community: props.sub_community,
+    //             description: props.description,
+    //             rule: props.rule,
+    //             background: null,
+    //             avatar: croppedImage
+    //         }
+    //     }
+    //     else{
+    //         var data = {
+    //             first_name: props.first_name,
+    //             last_name: props.last_name,
+    //             location: props.location,
+    //             bio: props.bio,
+    //             email: props.email,
+    //             background: croppedImage,
+    //             avatar: null
+    //         }
+    //     }
+    //     console.log(data);
+    //     axios.post('http://127.0.0.1:8000/api/profile/update/', data, config).then(function (response) {
+    //         if (response.status === 200) {
+    //             window.location.reload(false)
+    //         }
+    //     })
+    //         .catch(function (error) {
+    //             // console.log(avatarBase64);
+    //         });
+    // }
 
     const [dataUrl, setDataUrl] = useState(props.avatar);
-    function handleSubmit(e) {
-        // e.preventDefault();
-        // let avatarBase64 = getBase64Image(document.getElementById("down"));
-        // let backgroundBase64 = getBase64Image(document.getElementById("up"));
-        const config = {
-            headers: { Authorization: `Bearer ${cookies.token}` }
-        };
-
-        var data = {}
-        if (props.type === "avatar") {
-            var data = {
-                first_name: props.first_name,
-                last_name: props.last_name,
-                location: props.location,
-                bio: props.bio,
-                email: props.email,
-                background: null,
-                avatar: croppedImage
-            }
-        }
-        else{
-            var data = {
-                first_name: props.first_name,
-                last_name: props.last_name,
-                location: props.location,
-                bio: props.bio,
-                email: props.email,
-                background: croppedImage,
-                avatar: null
-            }
-        }
-        console.log(data);
-        axios.post('http://127.0.0.1:8000/api/profile/update/', data, config).then(function (response) {
-            if (response.status === 200) {
-                window.location.reload(false)
-            }
-        })
-            .catch(function (error) {
-                // console.log(avatarBase64);
-            });
-    }
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [rotation, setRotation] = useState(0)
     const [zoom, setZoom] = useState(1)
@@ -126,6 +130,12 @@ const AvatarEdit = (props) => {
     // }, [])
 
 
+    function onChangeImage(e){
+        e.preventDefault();
+        if(!props.handleSubmit) return;
+        props.handleSubmit(croppedImage);
+        setCroppedImage(null);
+    }
 
     return (
         <div>
@@ -202,15 +212,25 @@ const AvatarEdit = (props) => {
                             />
                         </div>
                         <Button
-                            onClick={handleSubmit}
+                            onClick={onChangeImage}
                             variant="contained"
                             color="primary"
+                            fullWidth={false}
                             // classes="cropButton"
                         >
                             Save
                         </Button>
+                        <Button
+                            onClick={()=>setDataUrl(null)}
+                            variant="contained"
+                            color="secondary"
+                            fullWidth={false}
+                            // classes="cropButton"
+                        >
+                            Cancel
+                        </Button>
                         {/* <button className="btn btn-primary" type="button" onClick={handleSubmit}>Save</button> */}
-                        <img id="down" alt="crop" className="d-none" src={croppedImage} />
+                        {/* <img id="down" alt="crop" className="d-none" src={croppedImage} /> */}
                     </div>
                     {/* <ImgDialog img={croppedImage} onClose={onClose} /> */}
                 </React.Fragment>
@@ -220,7 +240,7 @@ const AvatarEdit = (props) => {
                         <div {...getRootProps({ className: 'dropzone' })}>
                             <input {...getInputProps()} />
                             <p>Drag 'n' drop some files here</p>
-                            <button className="btn btn-primary" type="button" onClick={open}>Open File Dialog</button>
+                            {/* <button className="btn btn-primary" type="button" onClick={open}>Open File Dialog</button> */}
                         </div>
                         <aside>
                             {/* <h4>Files</h4> */}
@@ -234,4 +254,4 @@ const AvatarEdit = (props) => {
     )
 }
 
-export default AvatarEdit;
+export default ImageEdit;

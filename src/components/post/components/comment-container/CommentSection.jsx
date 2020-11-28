@@ -29,6 +29,7 @@ function CommentSection(props) {
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
     var config = {}
+    const [profile, setProfile] = useState(null);
     if (props.isAuthed) {
         config = {
             headers: { Authorization: `Bearer ${cookies.token}` },
@@ -43,7 +44,16 @@ function CommentSection(props) {
         };
     }
 
-
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/profile', config).then(res => {
+            console.log(res.data.results[0].username)
+            if (res.status === 200) {
+                setProfile(res.data.results[0].username);
+            }
+        }).catch(function (error) {
+            console.log(error.response)
+        });
+    }, [props.isAuthed])
 
     // danh sách chứa comment của bài viết được server trả về
     const [commentList, setCommentList] = useState([]);
@@ -124,20 +134,20 @@ function CommentSection(props) {
             {/* Khối comment editor */}
             <div className="post-comment-form-block-position post-comment-form-block">
                 <div className="comment-as-block">
-                    <span className="comment-as-text">Comment as <a className="name-user " href={"/user/" + props.user + "/"}>{props.user}</a>
+                    <span className="comment-as-text">Comment as <a className="name-user " href={"/user/" + profile + "/"}>{profile}</a>
                     </span>
                 </div>
                 {/* Component chứa form để comment */}
-                <CommentForm onSubmit={handleCommentSubmit} postId={props.postId} isAuthed={props.isAuthed} color={props.color}/>
+                <CommentForm onSubmit={handleCommentSubmit} postId={props.postId} isAuthed={props.isAuthed} color={props.color} />
                 <div className="comments-nav">
                     <ul className="nav nav-pills">
                         <li role="presentation" className="dropdown">
                             <a className="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                there are {props.cmtCount} comments <span className="caret" />
+                                There are {props.cmtCount} comments <span className="caret" />
                             </a>
                             <ul className="dropdown-menu">
-                                <li><a href="#">Best</a></li>
-                                <li><a href="#">Hot</a></li>
+                                <li className="mb-2"><a href="#"><i class="fa fa-rocket filter-icon" aria-hidden="true"></i>{" " + "Best"}</a></li>
+                                <li><a href="#"><i class="fa fa-fire filter-icon" aria-hidden="true">{" "}</i>Hot</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -145,7 +155,7 @@ function CommentSection(props) {
                 {/* Kết thúc khối comment editor */}
             </div>
             {/* Khối danh sách comment */}
-            <div className="comment-section-container comment-section-background" style={{backgroundColor: props.color.post_background_color, color: props.color.text_color}}>
+            <div className="comment-section-container comment-section-background" style={{ backgroundColor: props.color.post_background_color, color: props.color.text_color }}>
                 <div>
                     <div className="comment-section-block ">
                         <div className="comment-section-wrapper">

@@ -7,6 +7,8 @@ import { useHistory } from 'react-router-dom';
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect } from 'react';
 import Loader from 'react-loader-spinner';
+import Popup from 'reactjs-popup';
+import CreatePost from '../../CreatePost';
 
 
 // Khai báo hàm onLoadMore trong props để gọi hàm handleLoadMore phía component cha
@@ -27,6 +29,9 @@ function NewsFeed(props) {
     // Nếu là true thì sẽ hiện popup của post được click
     const [isShowPost, setIsShowPost] = useState(false);
 
+    const config = {
+        headers: { Authorization: `Bearer ${getCookie('token')}` }
+    };
     function handleClickPost(detail) {
         setPostDetail({
             postId: detail.postId,
@@ -42,11 +47,9 @@ function NewsFeed(props) {
             isAuthed: props.isAuthed
         });
         setIsShowPost(true);
+        // axios.get(`http://127.0.0.1:8000/api/post/${detail.postId}`, config)
     }
 
-    const config = {
-        headers: { Authorization: `Bearer ${getCookie('token')}` }
-    };
 
     function getCookie(name) {
         // Split cookie string and get all individual name=value pairs in an array
@@ -78,18 +81,20 @@ function NewsFeed(props) {
             alert('Chưa đăng nhập');
     }
 
-        console.log(props);
+    // console.log(props);
     // Sau khi popup của post được đóng, state này sẽ kiểm tra thay đổi về point của post đó
     const [pointsChanged, setPointsChanged] = useState({
         id: null,
         points: null
     });
     //Hàm xử lý khi close post, nhận giá trị id và points của post đó sau khi đóng
-    function closePost(id, points) {
+    function closePost(id, points, comments, views) {
         setIsShowPost(false);
         setPointsChanged({
             id: id,
-            points: points
+            points: points,
+            comment: comments,
+            views: views
         });
     }
 
@@ -97,7 +102,7 @@ function NewsFeed(props) {
     // Khi nhận được danh sách post của page tiếp theo từ props ta sẽ xử lý và render lại component
     useEffect(() => {
         //Kiểm tra danh sách này có rỗng không
-        if (typeof props.nextPosts !== 'undefined' && props.nextPosts.length > 0){
+        if (typeof props.nextPosts !== 'undefined' && props.nextPosts.length > 0) {
             // Thêm danh sách này vào danh sách post hiện tại
             setPosts([...posts, ...props.nextPosts]);
         }
@@ -116,20 +121,48 @@ function NewsFeed(props) {
         setPosts(props.posts);
     }, [props.posts])
 
-    function handleChangFilter(value){
-        if(!props.onChangeFilter) return;
+    function handleChangFilter(value) {
+        if (!props.onChangeFilter) return;
         props.onChangeFilter(value);
     }
-
+    // const [color, setColor] = useState(null);
+    // useEffect(() => {
+    //     setColor(props.color);
+    // }, [props.color])
     return (
         <div className="col-lg-8 col-sm-12">
 
-            <TrendingTags onChangeFilter={handleChangFilter}/>
+            <TrendingTags onChangeFilter={handleChangFilter} isAuthed={props.isAuthed} />
             <form>
-                <input type="text" placeholder="Submit your post" onClick={handleOnClickFormSubmit} />
+                <Popup
+                    modal
+                    lockScroll
+                    trigger={
+                        <input type="text" placeholder="Submit your post" onClick={handleOnClickFormSubmit} />
+                    }
+                >
+                    {
+                        close => (
+                                <CreatePost
+                                    close={close}
+                                    community={props.community}
+                                />
+                        )
+                    }
+                </Popup>
+
             </form>
             {/* Nếu một post trên newsfeed được click nó sẽ được hiện popup chi tiết tại đây */}
-            {isShowPost ? <Post detail={postDetail} cookie={props.cookie} isAuthed={props.isAuthed} onClosePost={closePost} /> : null}
+            {
+                isShowPost ?
+                    <Post
+                        detail={postDetail}
+                        cookie={props.cookie}
+                        isAuthed={props.isAuthed}
+                        onClosePost={closePost}
+                    />
+                    : null
+            }
             <div className="popular-topics">
                 <article className="post-6 page type-page status-publish hentry">
                     <div className="entrycontent clearfix">
@@ -189,8 +222,10 @@ function NewsFeed(props) {
                                         timestamp={post.timestamp}
                                         onClickPost={handleClickPost}
                                         isAuthed={props.isAuthed}
+                                        view={post.view_count}
                                         showPost={isShowPost}
                                         pointsChanged={pointsChanged}
+                                        color={props.color}
                                     />
                                 ))}
                             </InfiniteScroll>

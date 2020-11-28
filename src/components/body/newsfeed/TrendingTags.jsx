@@ -11,7 +11,7 @@ TrendingTags.defaultProps = {
 }
 
 function TrendingTags(props) {
-    const [filter, setFilter] = useState(0); //0: Best; 1: Hot; 2: Recent; 3: Top today; 4: top week; 5: top month
+    const [filter, setFilter] = useState(0); //0: Hot; 1: New; 2: Best; 3: Top today; 4: top week; 5: top month
     // const [top, setTop] = useState('date');
     function handleChangeFilter(value) {
         if (!props.onChangeFilter) return;
@@ -35,32 +35,39 @@ function TrendingTags(props) {
             <header className="section-title">
                 <div className="filter">
                     <a className={filter === 0 ? "filter-link active" : "filter-link"} href="# " onClick={(e) => { handleChangeFilter(0); e.preventDefault() }}>
-                        <i className="fa fa-rocket filter-icon" aria-hidden="true" />
-                        <div className="filter-title">
-                            Best
-                        </div>
-                    </a>
-                    <a className={filter === 1 ? "filter-link active" : "filter-link"} href="# " onClick={(e) => { handleChangeFilter(1); e.preventDefault() }}>
                         <i className="fa fa-fire filter-icon" aria-hidden="true" />
                         <div className="filter-title">
                             Hot
                         </div>
                     </a>
-                    <a className={filter === 2 ? "filter-link active" : "filter-link"} href="# " onClick={(e) => { handleChangeFilter(2); e.preventDefault() }}>
+                    <a className={filter === 1 ? "filter-link active" : "filter-link"} href="# " onClick={(e) => { handleChangeFilter(1); e.preventDefault() }}>
                         <i className="fa fa-certificate filter-icon" aria-hidden="true" />
                         <div className="filter-title">
                             New
                         </div>
                     </a>
-                    <a className={filter == 3 || filter == 4  || filter == 5 || filter == 6 || filter == 7? "filter-link active" : "filter-link"} href="# " onClick={(e) => { handleChangeFilter(3); e.preventDefault() }}>
-                        <i className="fa fa-line-chart filter-icon" aria-hidden="true" />
-                        <div className="filter-title">
-                            Top
-                        </div>
-                    </a>
                     {
-                        filter == 3 || filter == 4  || filter == 5 || filter == 6 || filter == 7  ?
-                            <div value={filter} onChange={(e) => {handleChangeFilter(e.target.value)}} className="box">
+                        props.isAuthed === true ?
+                            <span>
+                                <a className={filter === 2 ? "filter-link active" : "filter-link"} href="# " onClick={(e) => { handleChangeFilter(2); e.preventDefault() }}>
+                                    <i className="fa fa-rocket filter-icon" aria-hidden="true" />
+                                    <div className="filter-title">
+                                        Best
+                        </div>
+                                </a>
+                                <a className={filter == 3 || filter == 4 || filter == 5 || filter == 6 || filter == 7 ? "filter-link active" : "filter-link"} href="# " onClick={(e) => { handleChangeFilter(3); e.preventDefault() }}>
+                                    <i className="fa fa-line-chart filter-icon" aria-hidden="true" />
+                                    <div className="filter-title">
+                                        Top
+                        </div>
+                                </a>
+                            </span>
+                            : null
+                    }
+
+                    {
+                        filter == 3 || filter == 4 || filter == 5 || filter == 6 || filter == 7 ?
+                            <div value={filter} onChange={(e) => { handleChangeFilter(e.target.value) }} className="box">
                                 <select>
                                     <option value={3}>Today</option>
                                     <option value={4}>This Week</option>

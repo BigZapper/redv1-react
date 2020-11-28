@@ -4,15 +4,18 @@ import ColorPicker from './ColorPicker'
 import Popup from "reactjs-popup";
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 ChangeColorCommunity.propTypes = {
     onChangeColor: PropTypes.func,
+    onClickOutSide: PropTypes.func,
+    onSubmitColor: PropTypes.func,
 }
 
 ChangeColorCommunity.defaultProps = {
-    onChangeColor: null
+    onChangeColor: null,
+    onClickOutSide: null,
+    onSubmitColor: null
 }
 
 function ChangeColorCommunity(props) {
@@ -89,12 +92,16 @@ function ChangeColorCommunity(props) {
             description_background_color: values.description_background_color,
             button_background_color: values.button_background_color,
             text_color: values.text_color,
-            post_background_color: values.post_background_color
+            post_background_color: values.post_background_color,
+            button_text_color: values.button_text_color
         }
         e.preventDefault();
         axios.post('http://127.0.0.1:8000/api/community/update/', data, config).then(function (response) {
             if (response.status === 200) {
-                console.log(response)
+                if (!props.onSubmitColor) return;
+                props.onSubmitColor(data);
+                if (!props.onClickOutSide) return;
+                props.onClickOutSide(true);
             }
         })
             .catch(function (error) {
@@ -105,8 +112,33 @@ function ChangeColorCommunity(props) {
         if (!props.onChangeColor) return;
         props.onChangeColor(values);
     }, [values])
+
+
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef);
+    function useOutsideAlerter(ref) {
+        useEffect(() => {
+            /**
+             * Alert if clicked on outside of element
+             */
+            function handleClickOutside(event) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    if (!props.onClickOutSide) return
+                    props.onClickOutSide(true);
+                }
+            }
+
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
+
     return (
-        <div className="show-box-color">
+        <div className="show-box-color" ref={wrapperRef} >
             <div className="row">
                 <div className="col-md-6 col-sm-12">
                     <div className="pick-color-group">
@@ -115,6 +147,7 @@ function ChangeColorCommunity(props) {
                         {
                             pickedColor === 1 ?
                                 <ColorPicker
+                                    currentColor={values.background_color}
                                     onSubmitColor={handleSubmitBackgroundColor}
                                     onClickOutSide={() => setPickedColor(0)}
                                 />
@@ -129,6 +162,7 @@ function ChangeColorCommunity(props) {
                         {
                             pickedColor === 2 ?
                                 <ColorPicker
+                                    currentColor={values.title_background_color}
                                     onSubmitColor={handleSubmitTitleBackgroundColor}
                                     onClickOutSide={() => setPickedColor(0)}
                                 />
@@ -145,6 +179,7 @@ function ChangeColorCommunity(props) {
                         {
                             pickedColor === 3 ?
                                 <ColorPicker
+                                    currentColor={values.description_background_color}
                                     onSubmitColor={handleSubmitDescriptionBackgroundColor}
                                     onClickOutSide={() => setPickedColor(0)}
                                 />
@@ -159,6 +194,7 @@ function ChangeColorCommunity(props) {
                         {
                             pickedColor === 4 ?
                                 <ColorPicker
+                                    currentColor={values.button_background_color}
                                     onSubmitColor={handleSubmitButtonBackgroundColor}
                                     onClickOutSide={() => setPickedColor(0)}
                                 />
@@ -175,6 +211,7 @@ function ChangeColorCommunity(props) {
                         {
                             pickedColor === 5 ?
                                 <ColorPicker
+                                    currentColor={values.button_text_color}
                                     onSubmitColor={handleSubmitButtonTextColor}
                                     onClickOutSide={() => setPickedColor(0)}
                                 />
@@ -189,6 +226,7 @@ function ChangeColorCommunity(props) {
                         {
                             pickedColor === 6 ?
                                 <ColorPicker
+                                    currentColor={values.text_color}
                                     onSubmitColor={handleSubmitTextColor}
                                     onClickOutSide={() => setPickedColor(0)}
                                 />
@@ -205,6 +243,7 @@ function ChangeColorCommunity(props) {
                         {
                             pickedColor === 7 ?
                                 <ColorPicker
+                                    currentColor={values.post_background_color}
                                     onSubmitColor={handleSubmitPostBackgroundColor}
                                     onClickOutSide={() => setPickedColor(0)}
                                 />

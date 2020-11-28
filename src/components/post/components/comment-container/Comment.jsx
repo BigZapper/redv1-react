@@ -266,6 +266,7 @@ function Comment(props) {
                         showPopup();
                     }
                     console.log('lỗi upvote comment');
+                    console.log(error.response)
                 });
         }
         else
@@ -299,10 +300,10 @@ function Comment(props) {
                 <button onClick={toggleClass} className="btn btn-default btn-xs" type="button" data-toggle="collapse" data-target={"#collapseLevel-" + props.id} aria-expanded="true" aria-controls="collapseExample">
                     <i className={active ? "fa fa-minus expand" : "fa fa-plus expand "} aria-hidden="true" />
                 </button>
-                <span id={"comment-" + props.id} className="badge badge-warning">
+                {/* <span id={"comment-" + props.id} className="badge badge-warning">
                     {commentPoint}
-                </span>
-                 {props.user} {<TimeAgo date={new Date(props.timestamp)} />} 
+                </span> */}
+                 <a href={"/user/"+props.user}><strong style={{color: "#AAAAAA"}}>{props.user}</strong></a> • <i className="fa fa-clock-o"></i> {<TimeAgo date={new Date(props.timestamp)} />} 
             </div>
             <div className="panel-collapse collapse in show" id={"collapseLevel-" + props.id}>
                 <div className="media-left">
@@ -310,6 +311,8 @@ function Comment(props) {
                         <div className="vote_up" onClick={onClickUpVoteComment}>
                             <i id={"comment-up-"+ props.id} className={commentPointStatus===1? "fa fa-caret-up active":"fa fa-caret-up"} aria-hidden="true" />
                         </div>
+                        <div id={"point_detail_" + props.id} className={commentPointStatus === 1 || commentPointStatus === -1 ? "points points-title p-comment point-active" : "points points-title p-comment"}>
+                                            {commentPoint}</div>
                         <div className="vote_down" onClick={onClickDownVoteComment}>
                             <i id={"comment-down-"+ props.id} className={commentPointStatus===-1? "fa fa-caret-down active":"fa fa-caret-down" } aria-hidden="true" />
                         </div>
@@ -321,11 +324,11 @@ function Comment(props) {
                     <p>{props.content}</p>
                     {props.isAuthed?
                         <div className="comment-meta">
-                            <span><a href="#">delete</a></span>
+                            {/* <span><a href="#">delete</a></span>
                             <span><a href="#">report</a></span>
-                            <span><a href="#">hide</a></span>
+                            <span><a href="#">hide</a></span> */}
                             <span>
-                                <a role="button" data-toggle="collapse" href={"#replyComment" + props.id} aria-expanded="true" aria-controls="collapseExample" onClick={collaspAllFormOther}>reply</a>
+                                <a role="button" data-toggle="collapse" href={"#replyComment" + props.id} aria-expanded="true" aria-controls="collapseExample" onClick={collaspAllFormOther}> <i className="fa fa-reply"></i> Reply</a>
                             </span>
                             <div className="replyComment collapse" id={"replyComment" + props.id}>
                                 <CommentForm onSubmit={ handleCommentSubmit} parentId={ props.level>6? props.parent:props.id} isAuthed={props.isAuthed}/>

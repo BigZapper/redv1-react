@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Contents from './components/Contents';
-import CommentSection from './components/comment-container/CommentSection';
+// import CommentSection from './components/comment-container/CommentSection';
 import SideBarCommunity from '../body/SideBarCommunity';
 import CommentContainer from './components/CommentContainer';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 
 Post.propTypes = {
@@ -18,8 +19,8 @@ Post.defaultProps = {
 
 function Post(props) {
     var postId = 0;
-    const {idPost} = useParams();
-    if(props.detail){
+    const { idPost } = useParams();
+    if (props.detail) {
         postId = props.detail.postId;
     }
     else
@@ -31,6 +32,8 @@ function Post(props) {
     // else{
     //     postId = props.detail.postId;
     // }
+    
+    const [cookies, setCookie, removeCookie] = useCookies(['name']);
     const [postDetail, setPostDetail] = useState({
         postId: 0,
         user: "",
@@ -45,7 +48,7 @@ function Post(props) {
     var config = {}
     if (props.isAuthed) {
         config = {
-            headers: { Authorization: `Bearer ${getCookie('token')}` },
+            headers: { Authorization: `Bearer ${cookies.token}` },
             cancelToken: source.token
         };
     }
@@ -78,48 +81,7 @@ function Post(props) {
         return null;
     }
     const [countComment, setCountComment] = useState(0);
-    async function onLoadPost() {
-        axios.get(`http://127.0.0.1:8000/api/post/${postId}`, config).then(function (response) {
 
-            setPostDetail({
-                postId: response.data.id,
-                user: response.data.user.username,
-                type: response.data.type,
-                image: response.data.image,
-                upVotes: response.data.up_vote,
-                downVotes: response.data.down_vote,
-                title: response.data.title,
-                content: response.data.content,
-                community: response.data.community_type,
-                timestamp: response.data.timestamp
-            });
-            setPoints(response.data.up_vote - response.data.down_vote);
-        })
-            .catch(function (error) {
-                console.log(error.response);
-                // if (error.response.status) {
-                //     if (error.response.status === 401) {
-                //         showPopup();
-                //         console.log("Post riêng tư");
-                //     }
-                //     if (error.response.status === 403) {
-                //         showPopup();
-                //         console.log(error.response.statusText);
-                //     }
-                // }
-
-                if (axios.isCancel(error)) {
-                    console.log("cancelled");
-                }
-            });
-
-        axios.get(`http://127.0.0.1:8000/api/comment/${postId}/count`, config).then(function (response) {
-            setCountComment(response.data.Total);
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
 
     const [voteStatus, setVoteStatus] = useState(0);
     async function handleCheckVote(id) {
@@ -153,10 +115,63 @@ function Post(props) {
                 console.log(error);
             });
     }
-
-        // console.log(postDetail);
+    
     useEffect(() => {
+        function onLoadPost() {
+            // config = {
+            //     headers: { Authorization: `Bearer ${cookies.token}` },
+            //     cancelToken: source.token
+            // };
+            axios.get(`http://127.0.0.1:8000/api/post/${postId}`, config).then(function (response) {
+                if (response.status == 200) {
+                    setPostDetail({
+                        postId: response.data.id,
+                        user: response.data.user.username,
+                        type: response.data.type,
+                        image: response.data.image,
+                        upVotes: response.data.up_vote,
+                        downVotes: response.data.down_vote,
+                        title: response.data.title,
+                        content: response.data.content,
+                        community: response.data.community_type,
+                        timestamp: response.data.timestamp,
+                        view: response.data.view_count,
+                        avatar: response.data.user.avatar
+                    });
+
+                }
+                setPoints(response.data.up_vote - response.data.down_vote);
+            })
+                .catch(function (error) {
+                    console.log(error.response);
+                    // if (error.response.status) {
+                    //     if (error.response.status === 401) {
+                    //         showPopup();
+                    //         console.log("Post riêng tư");
+                    //     }
+                    //     if (error.response.status === 403) {
+                    //         showPopup();
+                    //         console.log(error.response.statusText);
+                    //     }
+                    // }
+
+                    if (axios.isCancel(error)) {
+                        console.log("cancelled");
+                    }
+                });
+
+            axios.get(`http://127.0.0.1:8000/api/comment/${postId}/count`, config).then(function (response) {
+                setCountComment(response.data.Total);
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
         onLoadPost();
+    }, [postId])
+
+    // console.log(postDetail);
+    useEffect(() => {
         if (props.isAuthed) {
             handleCheckVote(postId);
         }
@@ -285,11 +300,11 @@ function Post(props) {
     }
     function closePostPopup() {
         if (!props.onClosePost) return;
-        props.onClosePost(postId, points);
+        props.onClosePost(postId, points, countComment, postDetail.view);
     }
 
     const [color, setColor] = useState({})
-    function handleGetColor(color){
+    function handleGetColor(color) {
         setColor(color);
     }
     return (
@@ -298,44 +313,41 @@ function Post(props) {
             </div>
             <div id="post-popup" className="post-container container-post">
                 <div className="block-post ">
-                    <div className="container-scroll " id="overlayScrollContainer"  style={{backgroundColor: color.background_color}}>
-                        <div className="post-title-bar-container  " tabIndex={-1}  style={{backgroundColor: color.title_background_color, color: color.button_text_color}}>
+                    <div className="container-scroll " id="overlayScrollContainer" style={{ backgroundColor: color.background_color }}>
+                        <div className="post-title-bar-container  " tabIndex={-1} style={{ backgroundColor: color.title_background_color, color: color.button_text_color }}>
                             <div className="post-title-bar-block ">
                                 <div className="post-title-container">
-                                    <div className="points-block post-points-title-block post-points-title-container" id="vote-arrows-t3_iz99vh">
+                                    <div style={{ color: color.text_color }} className="points-block post-points-title-block post-points-title-container" id="vote-arrows-t3_iz99vh">
                                         <button aria-label="upvote" aria-pressed="false" className="voteButton" data-click-id="upvote" onClick={onClickUpVote}>
-                                            <span className="upvote-caret-block upvote-caret upvote-container upvote-container-block">
+                                            <span style={{ color: color.text_color }} className="upvote-caret-block upvote-caret upvote-container upvote-container-block">
                                                 <i id={"upvote_detail_" + postId} className={voteStatus === 1 ? "fa fa-caret-up upvote-block-position active" : "fa fa-caret-up upvote-block-position"} />
                                             </span>
                                         </button>
-                                        <div id={"point_detail_" + postId} className={voteStatus === 1 || voteStatus === -1 ? "points points-title point-active" : "points points-title"} style={{ color: '#0d0d0d' }}>
+                                        <div style={{ color: color.text_color }} id={"point_detail_" + postId} className={voteStatus === 1 || voteStatus === -1 ? "points points-title point-active" : "points points-title"}>
                                             {points}</div>
                                         <button aria-label="downvote" aria-pressed="false" className="voteButton" data-click-id="downvote" onClick={onClickDownVote}>
-                                            <span className="downvote-caret-block downvote-caret downvote-container downvote-container-block">
+                                            <span style={{ color: color.text_color }} className="downvote-caret-block downvote-caret downvote-container downvote-container-block">
                                                 <i id={"downvote_detail_" + postId} className={voteStatus === -1 ? "fa fa-caret-down downvote-position active" : "fa fa-caret-down downvote-position"} />
                                             </span>
                                         </button>
                                     </div>
                                     {
                                         postDetail.type === 'image' ?
-                                            <i className="fa fa-file-image-o  post-type" />
+                                            <i style={{ color: color.text_color }} className="fa fa-file-image-o  post-type" />
                                             : postDetail.type === 'url' ?
-                                                <i className="fa fa-link  post-type" />
-                                                : <i className="fa fa-file-text post-type" />
+                                                <i style={{ color: color.text_color }} className="fa fa-link  post-type" />
+                                                : <i style={{ color: color.text_color }} className="fa fa-file-text post-type" />
                                     }
 
                                     <div className="post-title-bar t3_iz99vh">
                                         <div className="title-post-block title-post-position ">
                                             <div className="title-post-format  title-post-position" >
-                                                <h1 className="title-post-text">{postDetail.title}</h1>
+                                                <h1 style={{ color: color.text_color }} className="title-post-text">{postDetail.title}</h1>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="close-post-block"><button className="_1McO-Omm_mC2bkTnVgD6NV close-post-btn " title="Close" aria-label="Close" onClick={closePostPopup}><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <polygon fill="inherit" points="11.649 9.882 18.262 3.267 16.495 1.5 9.881 8.114 3.267 1.5 1.5 3.267 8.114 9.883 1.5 16.497 3.267 18.264 9.881 11.65 16.495 18.264 18.262 16.497">
-                                    </polygon>
-                                </svg><span className="close-post-text">Close</span></button></div>
+                                <div className="close-post-block"><button style={{ color: color.text_color }} className="_1McO-Omm_mC2bkTnVgD6NV close-post-btn " title="Close" aria-label="Close" onClick={closePostPopup}><i style={{ color: color.text_color }} className="fa fa-times close-times"></i><span className="close-post-text">Close</span></button></div>
                             </div>
                         </div>
                         <div tabIndex={-1} className="post-body-container" >
@@ -343,15 +355,15 @@ function Post(props) {
                                 <div className="col-lg-8 col-md-7 col-sm-12">
                                     <div className="post-article-container">
                                         <div tabIndex={0} />
-                                        <div className="post-article-block" style={{backgroundColor: color.post_background_color, color: color.text_color}}>
+                                        <div className="post-article-block" style={{ backgroundColor: color.post_background_color, color: color.text_color }}>
                                             <div className="post-content-container  Post t3_iz99vh " id="t3_iz99vh" tabIndex={-1} data-testid="t3_iz99vh">
                                                 <Contents state={postDetail} cmtCount={countComment} color={color} />
                                             </div>
-                                            <CommentContainer postId={postId} user={postDetail.user} cookie={props.cookie} isAuthed={props.isAuthed} cmtCount={countComment} color={color}/>
+                                            <CommentContainer postId={postId} user={postDetail.user} cookie={props.cookie} isAuthed={props.isAuthed} cmtCount={countComment} color={color} />
                                         </div>
                                     </div>
                                 </div>
-                                <SideBarCommunity community={postDetail.community} onGetColor={handleGetColor}/>
+                                <SideBarCommunity community={postDetail.community} onGetColor={handleGetColor} />
                             </div>
                         </div>
 

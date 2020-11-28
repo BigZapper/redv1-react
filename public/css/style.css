@@ -243,13 +243,15 @@ article.hentry .domain a, #sidebar .widget .domain a {
     transition: opacity 0.24s ease-in-out;
 }
 .entrymeta span.avatar {
-    margin-right: 10px;
+    margin-right: 5px;
+    font-weight: 800;
 }
 .entrymeta span, .entry-meta span {
     margin-right: 10px;
     display: inline-block;
 }
-.entrymeta span.avatar img {
+
+.entrymeta .avatar img {
     display: inline-block;
     width: 25px;
     height: 25px;
@@ -423,6 +425,22 @@ article {
     margin: 0 0 15px 0;
     position: relative;
 }
+.list-community>div>ul>a {
+    line-height: 20px;
+    margin: 0px 0px;
+}
+.communities>ul.list-group.seacrh {
+    max-height: 344px;
+    width: fit-content;
+}
+.list-community>div>ul {
+    height: 300px;
+    overflow: auto;
+}
+.list-community {
+    padding: 30px;
+    width: 459px;
+}
 .widget_communities>ul>li:before, .topics-communities-widget .communities>ul>li:before {
     content: counter(widget-list-counter);
     counter-increment: widget-list-counter;
@@ -539,17 +557,18 @@ a.btn.btn-primary.join {
     border-color: #2f8e91;
 }
 a.btn.btn-primary.joined {
-    width: 23%;
+    /* width: 23%; */
     /* border-radius: 20px; */
     height: 78%;
-    position: absolute;
-    right: 25px;
+    /* position: absolute; */
+    /* right: 25px; */
     /* font-weight: 700; */
     /* top: -4px; */
-    /* color: #000000; */
+    float: right;
+    color: #007bff;
     padding-top: 1%;
-    background-color: #7a7a7a;
-    border-color: #7a7a7a;
+    background-color: #fefefe;
+    border-color: #007bff;
 }
 a.btn.btn-primary.leave {
     width: 23%;
@@ -580,15 +599,18 @@ button.btn.btn-dark.btn-block.login {
 .container {
     background: #30363C;
 }
+button.btn.btn-danger.join {padding: 2px 9px 4px;line-height: 24px;width: 100px;}
 .popup-content {
     padding: 30px;
     background-color: #fff;
-    max-width: 480px;
+    max-width: 800px;
+    max-height: 700px;
     margin: 0 auto;
     position: relative;
     z-index: 200;
     transform: translateY(5%);
     transition: 0.4s;
+    overflow: auto!important;
 }
 .warrior-header {
     margin-bottom: 40px;
@@ -874,7 +896,8 @@ button.btn.btn-primary.dropdown-toggle.user-btn:hover {
 .dropdown-menu.show {
     top: 46px;
     left: -71px;
-    width: 200px;
+    width: 150px;
+    padding: 10px 0px 10px 20px;
 }
 
 .dropdown-menu {
@@ -1020,3 +1043,24 @@ div#widget-upvote_recent_posts-2 {
     font-size: 13px;
     font-weight: 900;
   }
+
+  .search-input-container .search-input-container__inner {
+    position: relative!important;
+    width: 100%!important;
+}
+select#story_category {
+    margin-top: 9px;
+}
+p {
+    margin-bottom: 0!important;
+}
+a.subject {
+    font-size: 12px!important;
+    line-height: 0;
+}
+img#avt {
+    max-width: 200px;
+    border-radius: 100%;
+    display: block;
+    margin: auto;
+}
